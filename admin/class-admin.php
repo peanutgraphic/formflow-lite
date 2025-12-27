@@ -359,7 +359,7 @@ class Admin {
      * Render React app container
      */
     public function render_react_app(): void {
-        echo '<div id="formflow-lite-root" class="peanut-fullscreen-app"></div>';
+        echo '<div id="formflow-app" class="peanut-fullscreen-app"></div>';
     }
 
     /**
