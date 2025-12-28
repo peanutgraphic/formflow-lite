@@ -103,8 +103,8 @@
   background: #64748b;
 }
 
-/* Ensure full height for the app container */
+/* Ensure proper sizing for the app container */
 #formflow-app {
-  height: 100vh;
-  overflow: hidden;
+  min-height: calc(100vh - 32px);
+  overflow-x: hidden;
 }

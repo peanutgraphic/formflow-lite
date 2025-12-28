@@ -359,7 +359,26 @@ class Admin {
      * Render React app container
      */
     public function render_react_app(): void {
-        echo '<div id="formflow-app" class="peanut-fullscreen-app"></div>';
+        echo '<div id="formflow-app" class="formflow-wrap"></div>';
+        echo '<style>
+            .formflow-wrap {
+                margin: 0 !important;
+                padding: 0 !important;
+                margin-left: -20px !important;
+                margin-right: -20px !important;
+                margin-top: -10px !important;
+                min-height: calc(100vh - 32px);
+                background: #f8fafc;
+            }
+            #wpbody-content {
+                padding-bottom: 0 !important;
+            }
+            .formflow-wrap ~ .notice,
+            .formflow-wrap ~ .updated,
+            .formflow-wrap ~ .update-nag {
+                display: none !important;
+            }
+        </style>';
     }
 
     /**
