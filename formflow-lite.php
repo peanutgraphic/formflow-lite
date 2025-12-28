@@ -125,8 +125,19 @@ register_deactivation_hook(__FILE__, 'fffl_deactivate');
 
 /**
  * Initialize plugin
+ *
+ * Uses 'init' hook instead of 'plugins_loaded' to ensure translations
+ * are properly loaded before any translation functions are called.
+ * WordPress 6.7+ enforces strict timing on textdomain loading.
  */
 function fffl_init() {
+    // Load textdomain first
+    load_plugin_textdomain(
+        'formflow-lite',
+        false,
+        dirname(FFFL_PLUGIN_BASENAME) . '/languages'
+    );
+
     // Check PHP version
     if (version_compare(PHP_VERSION, '8.0', '<')) {
         add_action('admin_notices', function() {
@@ -170,7 +181,7 @@ function fffl_init() {
     $plugin = new FFFL\Plugin();
     $plugin->run();
 }
-add_action('plugins_loaded', 'fffl_init');
+add_action('init', 'fffl_init', 0);
 
 /**
  * Load bundled connectors from the connectors directory
