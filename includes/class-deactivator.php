@@ -1,0 +1,50 @@
+<?php
+/**
+ * Plugin Deactivator
+ *
+ * Handles plugin deactivation. Note: Data is preserved on deactivation.
+ * Full cleanup only happens on uninstall.
+ */
+
+namespace FFFL;
+
+class Deactivator {
+
+    /**
+     * Deactivate the plugin
+     */
+    public static function deactivate(): void {
+        // Clear scheduled cron events
+        self::clear_cron_events();
+
+        // Clear transients
+        self::clear_transients();
+
+        // Flush rewrite rules
+        flush_rewrite_rules();
+    }
+
+    /**
+     * Clear all scheduled cron events
+     */
+    private static function clear_cron_events(): void {
+        wp_clear_scheduled_hook('fffl_cleanup_sessions');
+        wp_clear_scheduled_hook('fffl_cleanup_logs');
+        wp_clear_scheduled_hook('fffl_process_retry_queue');
+        wp_clear_scheduled_hook('fffl_send_scheduled_reports');
+        wp_clear_scheduled_hook('fffl_apply_retention_policy');
+    }
+
+    /**
+     * Clear plugin transients
+     */
+    private static function clear_transients(): void {
+        global $wpdb;
+
+        $wpdb->query(
+            "DELETE FROM {$wpdb->options}
+            WHERE option_name LIKE '_transient_ff_%'
+            OR option_name LIKE '_transient_timeout_ff_%'"
+        );
+    }
+}

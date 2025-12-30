@@ -1,0 +1,2188 @@
+/**
+ * IntelliSource Forms - Frontend Styles
+ *
+ * Multi-step enrollment form styling
+ */
+
+/* ==========================================================================
+   CSS Variables
+   ========================================================================== */
+:root {
+    --ff-primary: #0066cc;
+    --ff-primary-hover: #0052a3;
+    --ff-primary-light: #e6f0fa;
+    --ff-secondary: #6c757d;
+    --ff-secondary-hover: #545b62;
+    --ff-success: #28a745;
+    --ff-success-light: #d4edda;
+    --ff-warning: #ffc107;
+    --ff-warning-light: #fff3cd;
+    --ff-error: #dc3545;
+    --ff-error-light: #f8d7da;
+    --ff-info: #17a2b8;
+    --ff-info-light: #d1ecf1;
+    --ff-text: #333333;
+    --ff-text-light: #666666;
+    --ff-text-muted: #999999;
+    --ff-border: #dddddd;
+    --ff-border-focus: #80bdff;
+    --ff-bg: #ffffff;
+    --ff-bg-light: #f8f9fa;
+    --ff-bg-dark: #e9ecef;
+    --ff-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --ff-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.15);
+    --ff-radius: 8px;
+    --ff-radius-sm: 4px;
+    --ff-transition: 0.2s ease;
+    --ff-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ==========================================================================
+   Base Container
+   ========================================================================== */
+.ff-form-container {
+    font-family: var(--ff-font);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ff-text);
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: var(--ff-bg);
+    border-radius: var(--ff-radius);
+    box-shadow: var(--ff-shadow);
+}
+
+.ff-form-container *,
+.ff-form-container *::before,
+.ff-form-container *::after {
+    box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Progress Bar
+   ========================================================================== */
+.ff-progress-container {
+    margin-bottom: 32px;
+}
+
+.ff-progress-bar {
+    height: 4px;
+    background: var(--ff-bg-dark);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.ff-progress-fill {
+    height: 100%;
+    background: var(--ff-primary);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.ff-progress-steps {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ff-progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+}
+
+.ff-step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--ff-bg-dark);
+    color: var(--ff-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all var(--ff-transition);
+}
+
+.ff-progress-step.active .ff-step-number,
+.ff-progress-step.completed .ff-step-number {
+    background: var(--ff-primary);
+    color: #fff;
+}
+
+.ff-progress-step.completed .ff-step-number {
+    background: var(--ff-success);
+}
+
+.ff-step-label {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--ff-text-muted);
+    text-align: center;
+}
+
+.ff-progress-step.active .ff-step-label {
+    color: var(--ff-primary);
+    font-weight: 600;
+}
+
+.ff-progress-step.completed .ff-step-label {
+    color: var(--ff-success);
+}
+
+.ff-progress-actions {
+    text-align: right;
+    margin-top: 12px;
+}
+
+/* ==========================================================================
+   Step Container
+   ========================================================================== */
+.ff-step {
+    animation: ff-fadeIn 0.3s ease;
+}
+
+@keyframes ff-fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ff-step-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ff-text);
+    margin: 0 0 8px 0;
+}
+
+.ff-step-description {
+    font-size: 16px;
+    color: var(--ff-text-light);
+    margin: 0 0 24px 0;
+}
+
+.ff-schedule-optional {
+    font-size: 14px;
+    color: var(--ff-text-muted);
+    margin-top: -16px;
+    margin-bottom: 24px;
+    padding: 12px 16px;
+    background: var(--ff-info-light);
+    border-radius: var(--ff-radius-sm);
+    border-left: 3px solid var(--ff-info);
+}
+
+/* ==========================================================================
+   Form Elements
+   ========================================================================== */
+.ff-step-form {
+    margin: 0;
+}
+
+.ff-fieldset {
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius);
+    padding: 20px;
+    margin: 0 0 24px 0;
+}
+
+.ff-legend {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ff-text);
+    padding: 0 8px;
+}
+
+.ff-fieldset-description {
+    font-size: 14px;
+    color: var(--ff-text-light);
+    margin: 0 0 16px 0;
+}
+
+.ff-field {
+    margin-bottom: 20px;
+}
+
+.ff-field:last-child {
+    margin-bottom: 0;
+}
+
+.ff-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ff-text);
+    margin-bottom: 6px;
+}
+
+.ff-required {
+    color: var(--ff-error);
+}
+
+.ff-input,
+.ff-select,
+.ff-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 16px;
+    font-family: inherit;
+    color: var(--ff-text);
+    background: var(--ff-bg);
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius-sm);
+    transition: border-color var(--ff-transition), box-shadow var(--ff-transition);
+}
+
+.ff-input:focus,
+.ff-select:focus,
+.ff-textarea:focus {
+    outline: none;
+    border-color: var(--ff-border-focus);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.15);
+}
+
+.ff-input::placeholder {
+    color: var(--ff-text-muted);
+}
+
+.ff-input-short {
+    max-width: 200px;
+}
+
+.ff-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.ff-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23666'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    padding-right: 40px;
+}
+
+.ff-select-small {
+    width: auto;
+    min-width: 100px;
+}
+
+.ff-input-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.ff-input-group .ff-input {
+    flex: 1 1 60%;
+    min-width: 150px;
+}
+
+.ff-input-group .ff-select-small {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 100px;
+}
+
+.ff-field-hint {
+    font-size: 13px;
+    color: var(--ff-text-muted);
+    margin: 6px 0 0 0;
+}
+
+.ff-static-value {
+    padding: 10px 14px;
+    font-size: 16px;
+    color: var(--ff-text);
+    background: var(--ff-bg-light);
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius-sm);
+}
+
+/* DCU-specific fields */
+.ff-dcu-fields {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--ff-border);
+}
+
+.ff-field-error {
+    font-size: 13px;
+    color: var(--ff-error);
+    margin: 6px 0 0 0;
+}
+
+/* Form Grid */
+.ff-form-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.ff-form-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.ff-form-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 600px) {
+    .ff-form-grid-2,
+    .ff-form-grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Checkbox and Radio */
+.ff-checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.ff-checkbox-label input[type="checkbox"],
+.ff-checkbox-label input[type="radio"] {
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.ff-checkbox-text {
+    font-size: 14px;
+    color: var(--ff-text);
+}
+
+/* ==========================================================================
+   Device Selection (Step 1)
+   ========================================================================== */
+.ff-device-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+}
+
+@media (max-width: 600px) {
+    .ff-device-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ff-device-option {
+    cursor: pointer;
+}
+
+.ff-device-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.ff-device-card {
+    border: 2px solid var(--ff-border);
+    border-radius: var(--ff-radius);
+    padding: 24px;
+    text-align: center;
+    transition: all var(--ff-transition);
+    background: var(--ff-bg);
+}
+
+.ff-device-option:hover .ff-device-card {
+    border-color: var(--ff-primary);
+}
+
+.ff-device-option.selected .ff-device-card,
+.ff-device-option input:checked + .ff-device-card {
+    border-color: var(--ff-primary);
+    background: var(--ff-primary-light);
+}
+
+.ff-device-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+    color: var(--ff-primary);
+}
+
+.ff-device-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.ff-device-content h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ff-text);
+    margin: 0 0 8px 0;
+}
+
+.ff-device-content p {
+    font-size: 14px;
+    color: var(--ff-text-light);
+    margin: 0 0 16px 0;
+}
+
+.ff-device-info {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--ff-primary);
+    text-decoration: none;
+}
+
+.ff-device-info:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   Alert Messages
+   ========================================================================== */
+.ff-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: var(--ff-radius-sm);
+    margin-bottom: 20px;
+}
+
+.ff-alert-error {
+    background: var(--ff-error-light);
+    border: 1px solid var(--ff-error);
+    color: #721c24;
+}
+
+.ff-alert-warning {
+    background: var(--ff-warning-light);
+    border: 1px solid var(--ff-warning);
+    color: #856404;
+}
+
+.ff-alert-info {
+    background: var(--ff-info-light);
+    border: 1px solid var(--ff-info);
+    color: #0c5460;
+}
+
+.ff-alert-icon {
+    flex-shrink: 0;
+}
+
+.ff-alert-message {
+    flex: 1;
+    font-size: 14px;
+}
+
+.ff-alert-close {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0.5;
+    padding: 0;
+    line-height: 1;
+}
+
+.ff-alert-close:hover {
+    opacity: 1;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.ff-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: inherit;
+    border: none;
+    border-radius: var(--ff-radius-sm);
+    cursor: pointer;
+    transition: all var(--ff-transition);
+    text-decoration: none;
+}
+
+.ff-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.ff-btn-primary {
+    background: var(--ff-primary);
+    color: #fff;
+}
+
+.ff-btn-primary:hover:not(:disabled) {
+    background: var(--ff-primary-hover);
+}
+
+.ff-btn-secondary {
+    background: var(--ff-bg-dark);
+    color: var(--ff-text);
+}
+
+.ff-btn-secondary:hover:not(:disabled) {
+    background: var(--ff-border);
+}
+
+.ff-btn-arrow {
+    font-size: 18px;
+}
+
+.ff-btn-loading {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ff-step-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--ff-border);
+}
+
+/* ==========================================================================
+   External Form Type (Handoff)
+   ========================================================================== */
+.ff-external-form {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.ff-external-header {
+    margin-bottom: 30px;
+}
+
+.ff-external-title {
+    margin: 0 0 10px;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--ff-text);
+}
+
+.ff-external-description {
+    margin: 0;
+    font-size: 16px;
+    color: var(--ff-text-light);
+    line-height: 1.6;
+}
+
+.ff-external-action {
+    margin-top: 20px;
+}
+
+.ff-external-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.ff-external-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================================================
+   Spinner
+   ========================================================================== */
+.ff-spinner {
+    animation: ff-spin 1s linear infinite;
+}
+
+@keyframes ff-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==========================================================================
+   Help Toggle (Step 2)
+   ========================================================================== */
+.ff-account-help {
+    margin-top: 24px;
+}
+
+.ff-help-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    color: var(--ff-primary);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+}
+
+.ff-help-toggle:hover {
+    text-decoration: underline;
+}
+
+.ff-help-content {
+    margin-top: 12px;
+    padding: 16px;
+    background: var(--ff-bg-light);
+    border-radius: var(--ff-radius-sm);
+}
+
+.ff-help-content p {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+}
+
+.ff-help-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Calendar & Scheduling (Step 4)
+   ========================================================================== */
+.ff-schedule-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 700px) {
+    .ff-schedule-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ff-calendar-section {
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius);
+    padding: 20px;
+}
+
+.ff-calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.ff-calendar-month {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.ff-calendar-nav {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: var(--ff-text-light);
+    border-radius: var(--ff-radius-sm);
+}
+
+.ff-calendar-nav:hover {
+    background: var(--ff-bg-light);
+    color: var(--ff-text);
+}
+
+.ff-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.ff-calendar-day-header {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ff-text-muted);
+    padding: 8px 0;
+}
+
+.ff-calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border-radius: var(--ff-radius-sm);
+    cursor: pointer;
+    transition: all var(--ff-transition);
+    border: 2px solid transparent;
+}
+
+.ff-calendar-day:hover:not(.disabled):not(.unavailable) {
+    background: var(--ff-primary-light);
+}
+
+.ff-calendar-day.available {
+    background: var(--ff-success-light);
+    color: var(--ff-text);
+}
+
+.ff-calendar-day.selected {
+    background: var(--ff-primary);
+    color: #fff;
+    border-color: var(--ff-primary-hover);
+}
+
+.ff-calendar-day.unavailable,
+.ff-calendar-day.disabled {
+    color: var(--ff-text-muted);
+    cursor: not-allowed;
+}
+
+.ff-calendar-day.other-month {
+    opacity: 0.3;
+}
+
+.ff-calendar-loading {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 40px 0;
+    color: var(--ff-text-muted);
+}
+
+.ff-calendar-legend {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 12px;
+}
+
+.ff-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ff-legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+.ff-legend-available {
+    background: var(--ff-success-light);
+}
+
+.ff-legend-selected {
+    background: var(--ff-primary);
+}
+
+.ff-legend-unavailable {
+    background: var(--ff-bg-dark);
+}
+
+/* Time Slots */
+.ff-timeslots-section {
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius);
+    padding: 20px;
+}
+
+.ff-timeslots-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+}
+
+.ff-timeslots-instruction {
+    font-size: 14px;
+    color: var(--ff-text-muted);
+    margin: 0;
+}
+
+.ff-timeslots-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ff-timeslot {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border: 2px solid var(--ff-border);
+    border-radius: var(--ff-radius-sm);
+    cursor: pointer;
+    transition: all var(--ff-transition);
+}
+
+.ff-timeslot:hover {
+    border-color: var(--ff-primary);
+}
+
+.ff-timeslot.selected {
+    border-color: var(--ff-primary);
+    background: var(--ff-primary-light);
+}
+
+.ff-timeslot input {
+    margin-right: 12px;
+}
+
+.ff-timeslot-label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.ff-timeslots-loading,
+.ff-timeslots-empty {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+    color: var(--ff-text-muted);
+    font-size: 14px;
+}
+
+/* Appointment Summary */
+.ff-appointment-summary {
+    background: var(--ff-success-light);
+    border: 1px solid var(--ff-success);
+    border-radius: var(--ff-radius);
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.ff-summary-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ff-success);
+    margin: 0 0 12px 0;
+}
+
+.ff-summary-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.ff-summary-item {
+    display: flex;
+    gap: 8px;
+}
+
+.ff-summary-label {
+    font-size: 14px;
+    color: var(--ff-text-light);
+}
+
+.ff-summary-value {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Installation Info */
+.ff-installation-info {
+    background: var(--ff-bg-light);
+    border-radius: var(--ff-radius);
+    padding: 20px;
+    margin-top: 24px;
+}
+
+.ff-installation-info h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+}
+
+.ff-installation-info ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.ff-installation-info li {
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+/* ==========================================================================
+   Review & Confirm (Step 5)
+   ========================================================================== */
+.ff-review-section {
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius);
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.ff-review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--ff-bg-light);
+    border-bottom: 1px solid var(--ff-border);
+}
+
+.ff-review-header h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.ff-edit-link {
+    background: none;
+    border: none;
+    color: var(--ff-primary);
+    cursor: pointer;
+    font-size: 13px;
+    padding: 0;
+}
+
+.ff-edit-link:hover {
+    text-decoration: underline;
+}
+
+.ff-review-content {
+    padding: 16px;
+}
+
+.ff-review-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.ff-review-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 500px) {
+    .ff-review-grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ff-review-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ff-review-item-full {
+    grid-column: 1 / -1;
+}
+
+.ff-review-label {
+    font-size: 12px;
+    color: var(--ff-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ff-review-value {
+    font-size: 14px;
+    color: var(--ff-text);
+}
+
+.ff-device-summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ff-device-icon-small {
+    color: var(--ff-primary);
+}
+
+.ff-device-name {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Terms Section */
+.ff-terms-section {
+    background: var(--ff-bg-light);
+    border-radius: var(--ff-radius);
+    padding: 20px;
+    margin-top: 24px;
+}
+
+.ff-terms-section .ff-field {
+    margin-bottom: 12px;
+}
+
+.ff-terms-link {
+    color: var(--ff-primary);
+}
+
+.ff-terms-links {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--ff-border);
+}
+
+.ff-terms-links .ff-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--ff-primary);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.ff-terms-links .ff-link:hover {
+    text-decoration: underline;
+}
+
+.ff-terms-links .ff-link svg {
+    flex-shrink: 0;
+}
+
+/* Program Rules Content Styles */
+.ff-rules-content {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.ff-rules-content h4 {
+    font-size: 16px;
+    margin: 20px 0 10px 0;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--ff-border);
+    color: var(--ff-text);
+}
+
+.ff-rules-content h4:first-child {
+    margin-top: 0;
+}
+
+.ff-rules-content ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.ff-rules-content li {
+    margin-bottom: 6px;
+}
+
+.ff-rules-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+.ff-rules-table th,
+.ff-rules-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border: 1px solid var(--ff-border);
+}
+
+.ff-rules-table th {
+    background: var(--ff-bg-light);
+    font-weight: 600;
+}
+
+.ff-rules-table tr:nth-child(even) td {
+    background: var(--ff-bg-light);
+}
+
+.ff-small {
+    font-size: 12px;
+    color: var(--ff-text-muted);
+}
+
+/* ==========================================================================
+   Existing Appointment Display (Reschedule)
+   ========================================================================== */
+.ff-existing-appointment {
+    margin-bottom: 24px;
+}
+
+.ff-appointment-details {
+    background: var(--ff-bg-light);
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius);
+    padding: 24px;
+    margin-top: 20px;
+}
+
+.ff-details-title {
+    font-size: 18px;
+    margin: 0 0 16px 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--ff-border);
+}
+
+.ff-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.ff-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ff-detail-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--ff-text-muted);
+}
+
+.ff-detail-value {
+    font-size: 16px;
+    color: var(--ff-text);
+}
+
+.ff-detail-highlight {
+    background: var(--ff-primary-light);
+    padding: 12px;
+    border-radius: var(--ff-radius-sm);
+    margin: 0 -12px;
+}
+
+.ff-detail-highlight .ff-detail-value {
+    font-weight: 600;
+    color: var(--ff-primary);
+}
+
+.ff-reschedule-actions {
+    padding-top: 20px;
+    border-top: 1px solid var(--ff-border);
+    text-align: center;
+}
+
+.ff-reschedule-actions p {
+    margin: 0 0 16px 0;
+    color: var(--ff-text-light);
+}
+
+/* ==========================================================================
+   Success Page
+   ========================================================================== */
+.ff-step-success {
+    text-align: center;
+}
+
+.ff-success-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
+    color: var(--ff-success);
+}
+
+.ff-success-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--ff-success);
+    margin: 0 0 12px 0;
+}
+
+.ff-success-message {
+    font-size: 16px;
+    color: var(--ff-text-light);
+    margin: 0 0 24px 0;
+}
+
+.ff-confirmation-box {
+    display: inline-block;
+    background: var(--ff-success-light);
+    border: 1px solid var(--ff-success);
+    border-radius: var(--ff-radius);
+    padding: 20px 40px;
+    margin-bottom: 32px;
+}
+
+.ff-confirmation-label {
+    display: block;
+    font-size: 12px;
+    color: var(--ff-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.ff-confirmation-number {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ff-success);
+    letter-spacing: 2px;
+}
+
+.ff-confirmation-hint {
+    font-size: 13px;
+    color: var(--ff-text-muted);
+    margin: 8px 0 0 0;
+}
+
+.ff-success-details {
+    background: var(--ff-bg-light);
+    border-radius: var(--ff-radius);
+    padding: 24px;
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.ff-success-details h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+}
+
+.ff-success-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 500px) {
+    .ff-success-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ff-success-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ff-success-label {
+    font-size: 12px;
+    color: var(--ff-text-muted);
+    text-transform: uppercase;
+}
+
+.ff-success-value {
+    font-size: 14px;
+    color: var(--ff-text);
+}
+
+.ff-success-email {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 32px;
+    color: var(--ff-text-light);
+}
+
+.ff-success-email p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.ff-success-next {
+    text-align: left;
+    background: var(--ff-bg-light);
+    border-radius: var(--ff-radius);
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.ff-success-next h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+}
+
+.ff-next-steps {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.ff-next-steps li {
+    margin-bottom: 16px;
+}
+
+.ff-next-steps li:last-child {
+    margin-bottom: 0;
+}
+
+.ff-next-steps strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.ff-next-steps p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--ff-text-light);
+}
+
+.ff-success-contact {
+    margin-bottom: 24px;
+}
+
+.ff-success-contact p {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: var(--ff-text-light);
+}
+
+.ff-success-contact a {
+    color: var(--ff-primary);
+}
+
+.ff-success-actions {
+    margin-top: 24px;
+}
+
+/* ==========================================================================
+   Popups/Modals
+   ========================================================================== */
+.ff-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    padding: 20px;
+}
+
+.ff-popup-content {
+    background: var(--ff-bg);
+    border-radius: var(--ff-radius);
+    padding: 24px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.ff-popup-large {
+    max-width: 700px;
+}
+
+.ff-popup-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--ff-text-muted);
+    padding: 0;
+    line-height: 1;
+}
+
+.ff-popup-close:hover {
+    color: var(--ff-text);
+}
+
+.ff-popup-content h3 {
+    font-size: 20px;
+    margin: 0 0 16px 0;
+    padding-right: 30px;
+}
+
+.ff-popup-content ul {
+    margin: 16px 0;
+    padding-left: 20px;
+}
+
+.ff-popup-content li {
+    margin-bottom: 8px;
+}
+
+.ff-terms-content ol {
+    padding-left: 20px;
+}
+
+.ff-terms-content li {
+    margin-bottom: 8px;
+}
+
+/* Warning Modal Styles (Medical Acknowledgment, etc.) */
+.ff-popup-warning .ff-popup-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--ff-border);
+}
+
+.ff-popup-warning .ff-popup-header h3 {
+    margin: 0;
+    padding-right: 0;
+}
+
+.ff-popup-warning .ff-warning-icon {
+    color: var(--ff-warning);
+    flex-shrink: 0;
+}
+
+.ff-popup-warning .ff-popup-body {
+    margin-bottom: 20px;
+}
+
+.ff-popup-warning .ff-popup-body p {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--ff-text);
+}
+
+.ff-popup-warning .ff-popup-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding-top: 16px;
+    border-top: 1px solid var(--ff-border);
+}
+
+.ff-popup-warning .ff-popup-actions .ff-btn {
+    min-width: 140px;
+}
+
+@media (max-width: 480px) {
+    .ff-popup-warning .ff-popup-actions {
+        flex-direction: column;
+    }
+
+    .ff-popup-warning .ff-popup-actions .ff-btn {
+        width: 100%;
+    }
+}
+
+/* ==========================================================================
+   Scheduler Form Styles
+   ========================================================================== */
+.ff-customer-info-box {
+    background: var(--ff-bg-light);
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+}
+
+.ff-customer-info-box p {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    color: var(--ff-text);
+}
+
+.ff-customer-info-box p:last-child {
+    margin-bottom: 0;
+}
+
+.ff-next-steps-list {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.ff-next-steps-list li {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+/* Test Mode Banner */
+.ff-test-banner {
+    background: var(--ff-warning-light);
+    border: 1px solid var(--ff-warning);
+    color: #856404;
+    padding: 10px 16px;
+    border-radius: var(--ff-radius-sm);
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Demo Mode Banner */
+.ff-demo-banner {
+    background: var(--ff-info-light);
+    border: 1px solid var(--ff-info);
+    color: #0c5460;
+    padding: 12px 16px;
+    border-radius: var(--ff-radius-sm);
+    margin-bottom: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* ==========================================================================
+   Auto-Save Indicator
+   ========================================================================== */
+.ff-autosave-indicator {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--ff-success);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: var(--ff-radius-sm);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 10000;
+    box-shadow: var(--ff-shadow);
+}
+
+.ff-autosave-indicator.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   Save & Continue Later
+   ========================================================================== */
+.ff-save-later-btn {
+    background: none;
+    border: none;
+    color: var(--ff-primary);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.ff-save-later-btn:hover {
+    color: var(--ff-primary-hover);
+}
+
+.ff-save-later-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* ==========================================================================
+   Real-Time Validation
+   ========================================================================== */
+.ff-input-error {
+    border-color: var(--ff-error) !important;
+}
+
+.ff-input-error:focus {
+    border-color: var(--ff-error) !important;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15) !important;
+}
+
+.ff-field-error {
+    display: block;
+    font-size: 12px;
+    color: var(--ff-error);
+    margin-top: 4px;
+}
+
+/* ==========================================================================
+   Mobile Calendar Improvements
+   ========================================================================== */
+@media (max-width: 600px) {
+    .ff-calendar-day {
+        font-size: 12px;
+        min-height: 40px;
+    }
+
+    .ff-calendar-day-header {
+        font-size: 10px;
+        padding: 4px 0;
+    }
+
+    .ff-timeslot {
+        padding: 14px 16px;
+    }
+
+    .ff-timeslot-label {
+        font-size: 15px;
+    }
+
+    /* Touch-friendly date input on mobile */
+    input[type="date"] {
+        min-height: 48px;
+        font-size: 16px;
+    }
+}
+
+/* Native date picker improvements */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    padding: 4px;
+    margin-right: -4px;
+}
+
+/* ==========================================================================
+   Google Places Autocomplete
+   ========================================================================== */
+.pac-container {
+    z-index: 100000 !important;
+    font-family: var(--ff-font);
+    border-radius: var(--ff-radius-sm);
+    border: 1px solid var(--ff-border);
+    box-shadow: var(--ff-shadow-lg);
+    margin-top: 4px;
+}
+
+.pac-item {
+    padding: 10px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-top: 1px solid var(--ff-bg-light);
+}
+
+.pac-item:first-child {
+    border-top: none;
+}
+
+.pac-item:hover,
+.pac-item-selected {
+    background: var(--ff-primary-light);
+}
+
+.pac-icon {
+    display: none;
+}
+
+.pac-item-query {
+    font-size: 14px;
+    color: var(--ff-text);
+}
+
+.pac-matched {
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   Loading State
+   ========================================================================== */
+.ff-loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.ff-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ==========================================================================
+   Cycling Options (Step 2)
+   ========================================================================== */
+.ff-cycling-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ff-radio-option {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px;
+    border: 2px solid var(--ff-border);
+    border-radius: var(--ff-radius);
+    cursor: pointer;
+    transition: all var(--ff-transition);
+}
+
+.ff-radio-option:hover {
+    border-color: var(--ff-primary);
+    background: var(--ff-bg-light);
+}
+
+.ff-radio-option.selected {
+    border-color: var(--ff-primary);
+    background: var(--ff-primary-light);
+}
+
+.ff-radio-option input[type="radio"] {
+    margin: 3px 12px 0 0;
+    flex-shrink: 0;
+}
+
+.ff-radio-label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ff-radio-label strong {
+    font-size: 16px;
+    color: var(--ff-text);
+}
+
+.ff-radio-desc {
+    font-size: 14px;
+    color: var(--ff-text-light);
+}
+
+/* ==========================================================================
+   Help Links & Popups
+   ========================================================================== */
+.ff-help-link {
+    background: none;
+    border: none;
+    color: var(--ff-primary);
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 8px;
+    text-decoration: underline;
+    font-family: inherit;
+}
+
+.ff-help-link:hover {
+    color: var(--ff-primary-hover);
+}
+
+.ff-popup-lg {
+    max-width: 600px;
+}
+
+.ff-popup-body ul {
+    margin: 12px 0;
+    padding-left: 20px;
+}
+
+.ff-popup-body ul li {
+    margin-bottom: 8px;
+}
+
+/* Bill Diagram for Account Help */
+.ff-help-bill-diagram {
+    margin: 20px 0;
+}
+
+.ff-bill-mock {
+    border: 2px solid var(--ff-border);
+    border-radius: var(--ff-radius);
+    background: var(--ff-bg-light);
+    padding: 16px;
+    font-size: 14px;
+}
+
+.ff-bill-header {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--ff-border);
+}
+
+.ff-bill-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.ff-bill-row.ff-bill-highlight {
+    background: #fffbcc;
+    margin: 0 -16px;
+    padding: 12px 16px;
+    border-radius: var(--ff-radius-sm);
+}
+
+.ff-bill-value {
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.ff-bill-arrow {
+    color: var(--ff-error);
+    font-weight: bold;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.ff-help-image {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius);
+}
+
+.ff-help-note {
+    font-size: 14px;
+    color: var(--ff-text-light);
+    margin-top: 12px;
+}
+
+/* ==========================================================================
+   Checkbox Options (Owner Approval)
+   ========================================================================== */
+.ff-checkbox-option {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px;
+    background: var(--ff-bg-light);
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius);
+    cursor: pointer;
+    margin-top: 16px;
+}
+
+.ff-checkbox-option input[type="checkbox"] {
+    margin: 3px 12px 0 0;
+    flex-shrink: 0;
+}
+
+.ff-checkbox-label {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ff-text);
+}
+
+.ff-owner-approval-wrap {
+    margin-top: 8px;
+}
+
+/* ==========================================================================
+   Info Notice Box
+   ========================================================================== */
+.ff-notice {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    border-radius: var(--ff-radius);
+    margin-top: 20px;
+}
+
+.ff-notice-info {
+    background: var(--ff-info-light);
+    border: 1px solid var(--ff-info);
+}
+
+.ff-notice-warning {
+    background: var(--ff-warning-light);
+    border: 1px solid var(--ff-warning);
+}
+
+.ff-notice-icon {
+    flex-shrink: 0;
+    color: var(--ff-info);
+}
+
+.ff-notice-warning .ff-notice-icon {
+    color: #856404;
+}
+
+.ff-notice-content {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.ff-notice-content strong {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.ff-notice-content p {
+    margin: 0 0 8px 0;
+}
+
+.ff-notice-content ul {
+    margin: 8px 0;
+    padding-left: 20px;
+}
+
+.ff-notice-content ul li {
+    margin-bottom: 4px;
+}
+
+/* ==========================================================================
+   Inline Validation Styles
+   ========================================================================== */
+
+/* Valid field state - green border */
+.ff-input-valid {
+    border-color: var(--ff-success) !important;
+    background-color: rgba(40, 167, 69, 0.03);
+}
+
+.ff-input-valid:focus {
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2) !important;
+}
+
+/* Validation icon wrapper - wraps input for icon positioning */
+.ff-input-wrap {
+    position: relative;
+    display: inline-flex;
+    width: 100%;
+}
+
+/* Wrapped inputs need padding for icon space */
+.ff-input-wrap .ff-input,
+.ff-input-wrap .ff-select {
+    width: 100%;
+    flex: 1;
+    padding-right: 38px !important;
+}
+
+/* Validation icon - absolutely positioned inside the wrapper */
+.ff-validation-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+}
+
+/* Success icon color */
+.ff-validation-success {
+    color: var(--ff-success);
+}
+
+/* Input group - phone fields with type selector */
+.ff-input-group {
+    position: relative;
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+
+/* Unwrapped input in group takes available space */
+.ff-input-group > .ff-input {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Phone type dropdown fixed width */
+.ff-input-group .ff-select-small {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 100px;
+}
+
+/* Input wrapper inside group - takes flex space */
+.ff-input-group > .ff-input-wrap {
+    flex: 1;
+    position: relative;
+    min-width: 0;
+    display: inline-flex;
+}
+
+.ff-input-group > .ff-input-wrap .ff-input {
+    width: 100%;
+    flex: 1;
+}
+
+/* ==========================================================================
+   Auto-Save Styles
+   ========================================================================== */
+
+/* Auto-save indicator */
+.ff-autosave-indicator {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--ff-success);
+    color: white;
+    padding: 10px 16px;
+    border-radius: var(--ff-radius);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: var(--ff-shadow-lg);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 9999;
+}
+
+.ff-autosave-indicator.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ff-autosave-indicator svg {
+    flex-shrink: 0;
+}
+
+/* Restore prompt */
+.ff-restore-prompt {
+    background: var(--ff-info-light);
+    border: 1px solid var(--ff-info);
+    border-radius: var(--ff-radius);
+    padding: 16px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.ff-restore-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.ff-restore-icon {
+    color: var(--ff-info);
+    flex-shrink: 0;
+}
+
+.ff-restore-text {
+    font-size: 14px;
+    color: var(--ff-text);
+}
+
+.ff-restore-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.ff-restore-btn {
+    padding: 8px 16px;
+    border-radius: var(--ff-radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--ff-transition);
+    border: none;
+}
+
+.ff-restore-yes {
+    background: var(--ff-primary);
+    color: white;
+}
+
+.ff-restore-yes:hover {
+    background: var(--ff-primary-hover);
+}
+
+.ff-restore-no {
+    background: transparent;
+    color: var(--ff-text-light);
+    border: 1px solid var(--ff-border);
+}
+
+.ff-restore-no:hover {
+    background: var(--ff-bg-light);
+}
+
+/* Notification */
+.ff-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    border-radius: var(--ff-radius);
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: var(--ff-shadow-lg);
+    z-index: 9999;
+    animation: ff-slide-in 0.3s ease;
+}
+
+.ff-notification-success {
+    background: var(--ff-success);
+    color: white;
+}
+
+.ff-notification-error {
+    background: var(--ff-error);
+    color: white;
+}
+
+.ff-notification-info {
+    background: var(--ff-info);
+    color: white;
+}
+
+@keyframes ff-slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ==========================================================================
+   Print Styles
+   ========================================================================== */
+@media print {
+    .ff-form-container {
+        box-shadow: none;
+        max-width: none;
+    }
+
+    .ff-progress-container,
+    .ff-step-actions,
+    .ff-success-actions,
+    .ff-btn,
+    .ff-save-later-btn,
+    .ff-autosave-indicator,
+    .ff-restore-prompt,
+    .ff-notification {
+        display: none !important;
+    }
+
+    .ff-success-details,
+    .ff-success-next,
+    .ff-confirmation-box {
+        break-inside: avoid;
+    }
+}
