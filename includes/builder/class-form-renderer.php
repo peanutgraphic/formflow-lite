@@ -52,8 +52,8 @@ class FormRenderer {
                     $is_visible = in_array($step_id, $visibility['visible_steps']);
                     $is_first = $index === 0;
                     ?>
-                    <div class="ff-step <?php echo $is_first ? 'active' : ''; ?> <?php echo !$is_visible ? 'ff-conditional-hidden' : ''; ?>"
-                         data-step="<?php echo $index + 1; ?>"
+                    <div class="ff-step <?php echo esc_attr($is_first ? 'active' : ''); ?> <?php echo esc_attr(!$is_visible ? 'ff-conditional-hidden' : ''); ?>"
+                         data-step="<?php echo intval($index + 1); ?>"
                          data-step-id="<?php echo esc_attr($step_id); ?>">
 
                         <?php if (!empty($step['title'])) : ?>
@@ -111,8 +111,8 @@ class FormRenderer {
         $progress_percent = (($current_step - 1) / max($total_steps - 1, 1)) * 100;
         ?>
         <div class="ff-progress-container">
-            <div class="ff-progress-bar" role="progressbar" aria-valuenow="<?php echo $progress_percent; ?>" aria-valuemin="0" aria-valuemax="100">
-                <div class="ff-progress-fill" style="width: <?php echo $progress_percent; ?>%;"></div>
+            <div class="ff-progress-bar" role="progressbar" aria-valuenow="<?php echo intval($progress_percent); ?>" aria-valuemin="0" aria-valuemax="100">
+                <div class="ff-progress-fill" style="width: <?php echo intval($progress_percent); ?>%;"></div>
             </div>
             <div class="ff-progress-steps" role="navigation" aria-label="<?php esc_attr_e('Form progress', 'formflow-lite'); ?>">
                 <?php foreach ($steps as $index => $step) : ?>
@@ -121,10 +121,10 @@ class FormRenderer {
                     $is_active = $step_num === $current_step;
                     $is_completed = $step_num < $current_step;
                     ?>
-                    <div class="ff-progress-step <?php echo $is_active ? 'active' : ''; ?> <?php echo $is_completed ? 'completed' : ''; ?>"
-                         data-step="<?php echo $step_num; ?>"
-                         aria-current="<?php echo $is_active ? 'step' : 'false'; ?>">
-                        <span class="ff-step-number"><?php echo $step_num; ?></span>
+                    <div class="ff-progress-step <?php echo esc_attr($is_active ? 'active' : ''); ?> <?php echo esc_attr($is_completed ? 'completed' : ''); ?>"
+                         data-step="<?php echo intval($step_num); ?>"
+                         aria-current="<?php echo esc_attr($is_active ? 'step' : 'false'); ?>">
+                        <span class="ff-step-number"><?php echo intval($step_num); ?></span>
                         <span class="ff-step-label"><?php echo esc_html($step['title'] ?? "Step {$step_num}"); ?></span>
                     </div>
                 <?php endforeach; ?>

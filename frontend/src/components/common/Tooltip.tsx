@@ -49,7 +49,7 @@ export function Tooltip({ content, children, position = 'top' }: TooltipProps) {
         {children}
       </div>
       {isVisible && createPortal(
-        <div className={`fixed z-[9999] px-3 py-2 text-sm bg-slate-900 text-white rounded-lg shadow-lg max-w-xs ${positionClasses[actualPosition]}`}
+        <div className={`fixed z-[99999] px-3 py-2 text-sm bg-slate-900 text-white rounded-lg shadow-lg max-w-xs pointer-events-none ${positionClasses[actualPosition]}`}
           style={{ top: tooltipPosition.top, left: tooltipPosition.left }}>
           {content}
         </div>,

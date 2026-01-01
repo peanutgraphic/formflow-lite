@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTodoAnnotatedTests="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         cacheDirectory=".phpunit.cache"
+         stopOnFailure="false">
+
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory>tests/Integration</directory>
+        </testsuite>
+    </testsuites>
+
+    <source>
+        <include>
+            <directory suffix=".php">includes</directory>
+            <directory suffix=".php">admin</directory>
+            <directory suffix=".php">public</directory>
+        </include>
+        <exclude>
+            <directory>includes/vendor</directory>
+            <directory>admin/views</directory>
+            <directory>public/templates</directory>
+        </exclude>
+    </source>
+
+    <php>
+        <const name="ABSPATH" value="/var/www/html/"/>
+        <const name="FFFL_PLUGIN_DIR" value="./"/>
+        <const name="FFFL_PLUGIN_URL" value="https://example.com/wp-content/plugins/formflow-lite/"/>
+        <const name="FFFL_VERSION" value="2.6.0"/>
+        <const name="WP_DEBUG" value="true"/>
+    </php>
+
+    <groups>
+        <exclude>
+            <group>slow</group>
+            <group>external</group>
+        </exclude>
+    </groups>
+
+    <logging>
+        <junit outputFile="build/logs/junit.xml"/>
+    </logging>
+
+</phpunit>
