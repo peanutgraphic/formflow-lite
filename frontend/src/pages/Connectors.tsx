@@ -301,7 +301,7 @@ export default function Connectors() {
             <select
               value={formData.auth_type}
               onChange={(e) => setFormData({ ...formData, auth_type: e.target.value as typeof formData.auth_type })}
-              className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500"
             >
               <option value="none">No Authentication</option>
               <option value="bearer">Bearer Token</option>

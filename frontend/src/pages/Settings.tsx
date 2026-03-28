@@ -138,7 +138,7 @@ export default function Settings() {
             <select
               value={settings.general.default_status}
               onChange={(e) => updateSettings('general', 'default_status', e.target.value as 'draft' | 'active')}
-              className="w-full max-w-xs px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="w-full max-w-xs px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500"
             >
               <option value="draft">Draft</option>
               <option value="active">Active</option>
@@ -154,7 +154,7 @@ export default function Settings() {
               max="100"
               value={settings.general.submissions_per_page}
               onChange={(e) => updateSettings('general', 'submissions_per_page', Number(e.target.value))}
-              className="w-full max-w-xs px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="w-full max-w-xs px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
           </div>
           <Switch
@@ -251,7 +251,7 @@ export default function Settings() {
                 max="100"
                 value={settings.security.rate_limit_per_minute}
                 onChange={(e) => updateSettings('security', 'rate_limit_per_minute', Number(e.target.value))}
-                className="w-full max-w-xs px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full max-w-xs px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
             </div>
           )}
@@ -271,7 +271,7 @@ export default function Settings() {
                 onChange={(e) => updateSettings('security', 'consent_text', e.target.value)}
                 rows={3}
                 placeholder="I agree to the terms and conditions..."
-                className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
             </div>
           )}
@@ -305,7 +305,7 @@ export default function Settings() {
               onChange={(e) => updateSettings('styling', 'custom_css', e.target.value)}
               rows={6}
               placeholder=".formflow-form { /* your styles */ }"
-              className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
           </div>
         </div>
