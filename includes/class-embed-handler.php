@@ -279,12 +279,38 @@ class EmbedHandler {
     }
 
     /**
+     * Check rate limit for a public embed endpoint.
+     *
+     * Returns a WP_REST_Response error if the limit is exceeded, or null if OK.
+     *
+     * @param string $action  Unique action identifier.
+     * @param int    $limit   Max requests per window.
+     * @param int    $window  Time window in seconds.
+     * @return \WP_REST_Response|null
+     */
+    private function check_embed_rate_limit(string $action, int $limit = 10, int $window = 60): ?\WP_REST_Response {
+        $allowed = apply_filters(Hooks::CHECK_RATE_LIMIT, true, $action, $limit, $window);
+        if (!$allowed) {
+            return new \WP_REST_Response(
+                ['error' => 'Too many requests. Please try again later.'],
+                429
+            );
+        }
+        return null;
+    }
+
+    /**
      * Handle embed form submission
      *
      * @param \WP_REST_Request $request
      * @return \WP_REST_Response
      */
     public function handle_embed_submission(\WP_REST_Request $request): \WP_REST_Response {
+        $rate_limit_error = $this->check_embed_rate_limit('fffl_embed_submit', 10, 60);
+        if ($rate_limit_error !== null) {
+            return $rate_limit_error;
+        }
+
         $token = $request->get_header('X-Embed-Token');
         $instance = $this->get_instance_by_embed_token($token);
 
@@ -315,6 +341,11 @@ class EmbedHandler {
      * @return \WP_REST_Response
      */
     public function handle_embed_validation(\WP_REST_Request $request): \WP_REST_Response {
+        $rate_limit_error = $this->check_embed_rate_limit('fffl_embed_validate', 20, 60);
+        if ($rate_limit_error !== null) {
+            return $rate_limit_error;
+        }
+
         $token = $request->get_header('X-Embed-Token');
         $instance = $this->get_instance_by_embed_token($token);
 
@@ -343,6 +374,11 @@ class EmbedHandler {
      * @return \WP_REST_Response
      */
     public function handle_embed_schedule(\WP_REST_Request $request): \WP_REST_Response {
+        $rate_limit_error = $this->check_embed_rate_limit('fffl_embed_schedule', 20, 60);
+        if ($rate_limit_error !== null) {
+            return $rate_limit_error;
+        }
+
         $token = $request->get_header('X-Embed-Token');
         $instance = $this->get_instance_by_embed_token($token);
 

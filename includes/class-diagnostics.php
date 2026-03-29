@@ -308,8 +308,11 @@ class Diagnostics {
 
                 // Delete old test entries
                 global $wpdb;
-                $deleted = $wpdb->query(
-                    "DELETE FROM {$wpdb->prefix}fffl_logs WHERE message = 'Diagnostic test entry' AND created_at < DATE_SUB(NOW(), INTERVAL 1 MINUTE)"
+                $deleted = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+                    $wpdb->prepare(
+                        "DELETE FROM {$wpdb->prefix}fffl_logs WHERE message = %s AND created_at < DATE_SUB(NOW(), INTERVAL 1 MINUTE)",
+                        'Diagnostic test entry'
+                    )
                 );
                 $this->add_result($category, 'DELETE', 'passed', 'Cleanup operation successful');
             } else {
