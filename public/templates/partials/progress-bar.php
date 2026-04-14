@@ -24,7 +24,7 @@ $steps = [
     </div>
     <div class="ff-progress-steps">
         <?php foreach ($steps as $num => $label) : ?>
-            <div class="ff-progress-step <?php echo $num === 1 ? 'active' : ''; ?>" data-step="<?php echo esc_attr($num); ?>">
+            <div class="ff-progress-step <?php echo esc_attr( $num === 1 ? 'active' : '' ); ?>" data-step="<?php echo esc_attr($num); ?>">
                 <div class="ff-step-number"><?php echo esc_html($num); ?></div>
                 <div class="ff-step-label"><?php echo esc_html($label); ?></div>
             </div>
