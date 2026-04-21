@@ -24,16 +24,22 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md', f
 
   return createPortal(
     <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="fixed inset-0 bg-black/50" onClick={onClose} />
-      <div className="flex min-h-full items-center justify-center p-4">
-        <div className={`relative bg-white rounded-lg shadow-xl w-full ${sizes[size]}`} onClick={(e) => e.stopPropagation()}>
+      <button type="button" className="fixed inset-0 bg-black/50" onClick={onClose} aria-label="Close dialog" />
+      <div className="flex min-h-[100dvh] items-end justify-center p-3 sm:items-center sm:p-4">
+        <div
+          className={`relative flex max-h-[calc(100dvh-1.5rem)] w-full flex-col overflow-hidden rounded-t-2xl bg-white shadow-xl sm:max-h-[calc(100dvh-2rem)] sm:rounded-lg ${sizes[size]}`}
+          onClick={(e) => e.stopPropagation()}
+          role="dialog"
+          aria-modal="true"
+          aria-label={title}
+        >
           <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
             <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
-            <button onClick={onClose} className="p-1 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100">
+            <button onClick={onClose} className="p-1 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100" aria-label="Close dialog">
               <X className="w-5 h-5" />
             </button>
           </div>
-          <div className="px-6 py-4">{children}</div>
+          <div className="max-h-[calc(100dvh-9rem)] overflow-y-auto px-6 py-4 sm:max-h-[calc(100dvh-10rem)]">{children}</div>
           {footer && <div className="px-6 py-4 border-t border-slate-200 flex justify-end gap-3">{footer}</div>}
         </div>
       </div>
