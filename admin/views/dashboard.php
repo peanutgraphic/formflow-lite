@@ -52,7 +52,7 @@ if (!defined('ABSPATH')) {
     </div>
 
     <!-- Quick Stats Row -->
-    <div class="fffl-dashboard-grid">
+    <div class="ff-dashboard-grid">
         <!-- All Time Stats -->
         <div class="ff-stats-section">
             <h3 class="ff-stats-heading"><?php esc_html_e('All Time', 'formflow-lite'); ?></h3>

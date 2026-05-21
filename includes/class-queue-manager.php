@@ -70,7 +70,42 @@ class QueueManager {
         // Admin notice if Action Scheduler not available
         if (!$this->as_available && is_admin()) {
             add_action('admin_notices', [$this, 'show_as_notice']);
+            add_action('admin_footer', [$this, 'print_dismiss_script']);
+            add_action('wp_ajax_fffl_dismiss_notice', [$this, 'ajax_dismiss_notice']);
         }
+    }
+
+    /**
+     * Print dismissal script — wires the WP-native is-dismissible "x" to a
+     * persistent user_meta flag via AJAX.
+     */
+    public function print_dismiss_script(): void {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+        $nonce = wp_create_nonce('fffl_dismiss_notice');
+        echo '<script>(function($){$(document).on("click",".notice[data-fffl-notice] .notice-dismiss",function(){' .
+             'var k=$(this).closest(".notice").data("fffl-notice");' .
+             'if(!k)return;' .
+             '$.post(ajaxurl,{action:"fffl_dismiss_notice",notice:k,_wpnonce:"' . esc_js($nonce) . '"});' .
+             '});})(jQuery);</script>';
+    }
+
+    /**
+     * Persist a notice dismissal in user_meta.
+     */
+    public function ajax_dismiss_notice(): void {
+        check_ajax_referer('fffl_dismiss_notice');
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => 'forbidden'], 403);
+        }
+        $notice = isset($_POST['notice']) ? sanitize_key($_POST['notice']) : '';
+        $allowed = ['action_scheduler'];
+        if (!in_array($notice, $allowed, true)) {
+            wp_send_json_error(['message' => 'unknown_notice'], 400);
+        }
+        update_user_meta(get_current_user_id(), 'fffl_dismissed_' . $notice . '_notice', 1);
+        wp_send_json_success();
     }
 
     /**
@@ -107,9 +142,17 @@ class QueueManager {
             return;
         }
 
-        echo '<div class="notice notice-warning"><p>';
+        // 3.2.8: dismissible + correct branding (Lite, not Pro). Persistent
+        // dismissal lives in user meta so it stays gone across page loads
+        // until the user logs out or clears their user_meta.
+        $user_id = get_current_user_id();
+        if ($user_id && get_user_meta($user_id, 'fffl_dismissed_action_scheduler_notice', true)) {
+            return;
+        }
+
+        echo '<div class="notice notice-warning is-dismissible" data-fffl-notice="action_scheduler"><p>';
         echo esc_html__(
-            'FormFlow Pro: Action Scheduler not found. Async processing will fall back to synchronous mode. ' .
+            'FormFlow Lite: Action Scheduler not found. Async processing will fall back to synchronous mode. ' .
             'Install WooCommerce or the Action Scheduler plugin for better performance.',
             'formflow-lite'
         );

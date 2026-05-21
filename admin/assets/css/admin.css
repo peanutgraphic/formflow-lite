@@ -451,8 +451,12 @@
 .ff-api-health-empty {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 20px;
+    padding: 8px 12px;
     color: #646970;
+    font-size: 13px;
+}
+.ff-api-health-empty p {
+    margin: 0;
 }
 
 .ff-api-health-footer {

@@ -5,6 +5,17 @@ All notable changes to FormFlow Lite are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.8] - 2026-05-21
+
+### Fixed
+
+- **Dashboard layout: All Time and Today now sit side-by-side as designed.** The wrapper used `fffl-dashboard-grid` (four f's) while the CSS targeted `ff-dashboard-grid` (two f's), so the grid never applied and Today was stacking full-width below All Time with oversized cards. Aligned the HTML class to the CSS.
+- **Action Scheduler banner is now dismissible and correctly branded.** Said "FormFlow Pro" (this is the Lite plugin) and re-appeared on every page load. Renamed to "FormFlow Lite", added `is-dismissible`, and persistent dismissal via user_meta so it stays gone for the dismissing user once they click X.
+
+### Changed
+
+- **Compact API Status empty state** — the "Click 'Check Now'" prompt now sits as a single line instead of consuming ~80px of vertical real estate before any health data is loaded.
+
 ## [3.2.7] - 2026-05-21
 
 ### Fixed
