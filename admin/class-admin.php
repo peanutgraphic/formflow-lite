@@ -106,27 +106,26 @@ class Admin {
      * 6. Tools - Settings, Diagnostics, Compliance (tabbed)
      */
     public function add_admin_menu(): void {
-        // React SPA - Main menu
+        // 3.2.6: collapsed to a single FormFlow menu. The React SPA at
+        // formflow-lite-app had a broken deep-link route (formflow-editor was
+        // never registered, causing wp_die on direct loads) and had not yet
+        // achieved feature parity with the PHP admin. The React app's handler
+        // (render_react_app) is left in the class for a future re-introduction
+        // but is no longer registered as a top-level menu.
         add_menu_page(
             __('FormFlow', 'formflow-lite'),
             __('FormFlow', 'formflow-lite'),
-            'manage_options',
-            'formflow-lite-app',
-            [$this, 'render_react_app'],
-            'dashicons-forms',
-            29
-        );
-
-        // Legacy menu
-        add_menu_page(
-            __('FormFlow', 'formflow-lite'),
-            __('FF Forms (Legacy)', 'formflow-lite'),
             'manage_options',
             'fffl-dashboard',
             [$this, 'render_dashboard'],
             'dashicons-forms',
-            30
+            29
         );
+
+        // Safety net: anything still linking to the React SPA or its sub-routes
+        // should land on the dashboard instead of a generic wp_die page.
+        add_submenu_page(null, '', '', 'manage_options', 'formflow-lite-app', [$this, 'redirect_to_dashboard']);
+        add_submenu_page(null, '', '', 'manage_options', 'formflow-editor', [$this, 'redirect_to_dashboard']);
 
         // Dashboard (same as main)
         add_submenu_page(
@@ -251,6 +250,11 @@ class Admin {
     /**
      * Redirect legacy URLs to new consolidated pages
      */
+    public function redirect_to_dashboard(): void {
+        wp_safe_redirect(admin_url('admin.php?page=fffl-dashboard'));
+        exit;
+    }
+
     public function redirect_to_data(): void {
         $tab = 'submissions';
         $page = sanitize_text_field($_GET['page'] ?? '');
