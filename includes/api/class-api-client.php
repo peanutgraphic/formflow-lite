@@ -236,8 +236,13 @@ class ApiClient {
             'pswd' => $this->password
         ];
 
-        // Use POST to keep credentials out of URL/server logs
-        $response = $this->request('/promo_codes', $params, 'POST', false);
+        // 3.2.7: IntelliSource's /promo_codes endpoint only accepts GET with
+        // the password in the query string — POST returns HTTP 404 / 405. The
+        // legacy production globals (see DOCUMENTATION) confirm GET is the
+        // documented call shape. The request() method previously force-converted
+        // any GET-with-pswd to POST for "security"; that bypass is removed for
+        // this specific endpoint via the $force_method flag.
+        $response = $this->request('/promo_codes', $params, 'GET', false, true);
 
         // Parse response - typically returns comma-separated codes
         if (is_string($response)) {
@@ -260,15 +265,21 @@ class ApiClient {
         string $path,
         array $params,
         string $method = 'POST',
-        bool $parse_xml = true
+        bool $parse_xml = true,
+        bool $force_method = false
     ): array|string {
         // Build URL, avoiding double slashes
         $endpoint = rtrim($this->endpoint, '/');
         $path = ltrim($path, '/');
         $url = $endpoint . '/' . $path;
 
-        // Security: Warn and prevent credentials in GET query strings
-        if ($method === 'GET' && isset($params['pswd'])) {
+        // 3.2.7: Some IntelliSource endpoints (e.g. /promo_codes) require GET
+        // with the password in the query string and return 404/405 for POST.
+        // Callers that know this can pass $force_method=true to skip the
+        // GET→POST coercion for credentialed calls. The credentials still
+        // travel over HTTPS; the trade-off is they appear in the IS-side
+        // access logs (which is unavoidable given the API design).
+        if ($method === 'GET' && isset($params['pswd']) && !$force_method) {
             // Log security warning
             $this->db->log('warning', 'Attempted to send credentials via GET request', [
                 'path' => $path,

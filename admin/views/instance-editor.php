@@ -334,9 +334,20 @@ $wizard_steps = [
                                                 <?php echo !$is_edit ? '<span class="required">*</span>' : ''; ?>
                                                 <?php fffl_help_tooltip(__('Securely encrypted before storage.', 'formflow-lite')); ?>
                                             </label>
-                                            <input type="password" id="api_password" name="api_password" class="ff-field-input"
-                                                   value="<?php echo esc_attr($instance['api_password'] ?? ''); ?>"
-                                                   <?php echo $is_edit ? '' : 'required'; ?>>
+                                            <div class="ff-password-wrap" style="position: relative;">
+                                                <input type="password" id="api_password" name="api_password" class="ff-field-input"
+                                                       value="<?php echo esc_attr($instance['api_password'] ?? ''); ?>"
+                                                       style="padding-right: 38px;"
+                                                       <?php echo $is_edit ? '' : 'required'; ?>>
+                                                <button type="button"
+                                                        class="ff-password-toggle"
+                                                        aria-label="<?php esc_attr_e('Show password', 'formflow-lite'); ?>"
+                                                        aria-pressed="false"
+                                                        data-target="api_password"
+                                                        style="position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding: 4px 8px; color: #6b7280;">
+                                                    <span class="dashicons dashicons-visibility" aria-hidden="true"></span>
+                                                </button>
+                                            </div>
                                             <?php if ($is_edit) : ?>
                                                 <p class="ff-field-help"><?php esc_html_e('Leave blank to keep existing password.', 'formflow-lite'); ?></p>
                                             <?php endif; ?>
@@ -1164,6 +1175,19 @@ $wizard_steps = [
 
 <script>
 jQuery(document).ready(function($) {
+    // 3.2.7: password show/hide toggle
+    $(document).on('click', '.ff-password-toggle', function() {
+        var $btn = $(this);
+        var $input = $('#' + $btn.data('target'));
+        var $icon = $btn.find('.dashicons');
+        var showing = $input.attr('type') === 'text';
+        $input.attr('type', showing ? 'password' : 'text');
+        $icon.toggleClass('dashicons-visibility', showing);
+        $icon.toggleClass('dashicons-hidden', !showing);
+        $btn.attr('aria-pressed', !showing);
+        $btn.attr('aria-label', showing ? 'Show password' : 'Hide password');
+    });
+
     var wizardSteps = ['basics', 'api', 'fields', 'scheduling', 'content', 'email', 'features'];
     var currentStepIndex = 0;
     var isQuickEditMode = $('#ff-quick-edit-toggle').is(':checked');
