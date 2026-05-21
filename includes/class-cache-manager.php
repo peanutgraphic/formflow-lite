@@ -550,14 +550,21 @@ class CacheManager {
     /**
      * Cache schedule slots
      *
+     * IntelliSource returns different slots per account (account → FSR → region).
+     * The cache key MUST include account + zip or cross-region cache poisoning will
+     * serve one customer's slots to another. See 3.2.5 changelog.
+     *
      * @param int $instance_id
      * @param string $date
+     * @param string $account_number
+     * @param string $zip
      * @param array $slots
      * @param int $ttl
      * @return bool
      */
-    public function cache_schedule_slots(int $instance_id, string $date, array $slots, int $ttl = 300): bool {
-        return $this->set("slots_{$instance_id}_{$date}", $slots, $ttl);
+    public function cache_schedule_slots(int $instance_id, string $date, string $account_number, string $zip, array $slots, int $ttl = 300): bool {
+        $scope = md5($account_number . '|' . $zip);
+        return $this->set("slots_{$instance_id}_{$date}_{$scope}", $slots, $ttl);
     }
 
     /**
@@ -565,10 +572,13 @@ class CacheManager {
      *
      * @param int $instance_id
      * @param string $date
+     * @param string $account_number
+     * @param string $zip
      * @return array|null
      */
-    public function get_schedule_slots(int $instance_id, string $date): ?array {
-        return $this->get("slots_{$instance_id}_{$date}");
+    public function get_schedule_slots(int $instance_id, string $date, string $account_number, string $zip): ?array {
+        $scope = md5($account_number . '|' . $zip);
+        return $this->get("slots_{$instance_id}_{$date}_{$scope}");
     }
 
     /**

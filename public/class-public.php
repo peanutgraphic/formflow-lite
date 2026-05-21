@@ -838,8 +838,31 @@ class Frontend {
             return;
         }
 
+        // 3.2.5: idempotency guard. IntelliSource's enrollment endpoint is NOT
+        // idempotent — a retried AJAX submit (slow network, double-click,
+        // browser back+resubmit) would create a SECOND enrollment for the same
+        // customer, triggering duplicate rebate issuance. If this session has
+        // already completed enrollment, return the cached FSR/caNo immediately
+        // without hitting the API again.
+        $prior_form_data = $submission['form_data'] ?? [];
+        if (!empty($prior_form_data['enrollment_completed'])) {
+            $this->db->log('info', 'Early enrollment idempotent replay — returning cached identifiers', [
+                'fsr_no' => $prior_form_data['fsr_no'] ?? '',
+                'ca_no'  => $prior_form_data['ca_no'] ?? '',
+            ], $instance_id, $submission['id']);
+
+            wp_send_json_success([
+                'message'      => __('Enrollment already submitted.', 'formflow-lite'),
+                'fsr_no'       => $prior_form_data['fsr_no'] ?? '',
+                'ca_no'        => $prior_form_data['ca_no'] ?? '',
+                'comverge_no'  => $prior_form_data['comverge_no'] ?? ($prior_form_data['ca_no'] ?? ''),
+                'idempotent'   => true,
+            ]);
+            return;
+        }
+
         // Merge submitted data with existing form data
-        $form_data = array_merge($submission['form_data'] ?? [], Security::sanitize_form_data($submitted_data));
+        $form_data = array_merge($prior_form_data, Security::sanitize_form_data($submitted_data));
 
         // Check demo mode
         $demo_mode = $instance['settings']['demo_mode'] ?? false;

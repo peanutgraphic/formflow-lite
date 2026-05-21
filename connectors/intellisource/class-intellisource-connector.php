@@ -17,6 +17,7 @@ use FFFL\Api\AccountValidationResult;
 use FFFL\Api\EnrollmentResult;
 use FFFL\Api\SchedulingResult;
 use FFFL\Api\BookingResult;
+use FFFL\Api\XmlParser;
 use FFFL\Database\Database;
 
 if (!defined('ABSPATH')) {
@@ -521,7 +522,7 @@ class IntelliSourceConnector implements ApiConnectorInterface {
         }
 
         if ($parse_xml && !empty($body)) {
-            return IntelliSourceXmlParser::parse($body);
+            return XmlParser::parse($body);
         }
 
         return $body;
@@ -629,15 +630,75 @@ class IntelliSourceConnector implements ApiConnectorInterface {
      * @return BookingResult
      */
     private function parse_booking_response($response, array $data): BookingResult {
-        // Booking typically returns a simple success or the appointment details
-        $success = !empty($response) && !str_contains(strtolower($response), 'error');
+        // 3.2.5: switched from "negative" check (no "error" string ⇒ success) to
+        // a positive-confirmation check. The old check false-positived on
+        // "No available slots", HTML error pages, and XML error responses
+        // that didn't literally contain the word "error". Booking success
+        // requires an explicit confirmation/caNo/fsr token in the response.
+        $body = is_string($response) ? $response : '';
+        $parsed = is_array($response) ? $response : [];
+
+        if ($parsed === [] && $body !== '' && stripos($body, '<') !== false) {
+            try {
+                $parsed = XmlParser::parse($body);
+            } catch (\Exception $e) {
+                $parsed = [];
+            }
+        }
+
+        // XmlParser returns {root: {child: {value: "..."}}}. Unwrap a single
+        // wrapper element if present so we can read leaf tokens directly.
+        $inner = $parsed;
+        if (is_array($inner) && count($inner) === 1) {
+            $only = reset($inner);
+            if (is_array($only) && !array_key_exists('value', $only)) {
+                $inner = $only;
+            }
+        }
+
+        $field = static function (array $bag, string ...$keys): string {
+            foreach ($keys as $key) {
+                if (!isset($bag[$key])) {
+                    continue;
+                }
+                if (is_array($bag[$key]) && isset($bag[$key]['value'])) {
+                    return (string)$bag[$key]['value'];
+                }
+                if (is_scalar($bag[$key])) {
+                    return (string)$bag[$key];
+                }
+            }
+            return '';
+        };
+
+        $confirmation = $field($inner, 'confirmation', 'confirmationNumber', 'confirmation_number');
+        $ca_no        = $field($inner, 'caNo', 'ca_no', 'CaNo');
+        $fsr          = $field($inner, 'fsr', 'fsrNo', 'FSR');
+
+        $error_code    = $field($inner, 'error_cd', 'errorCode', 'errCode', 'error_code');
+        $error_message = $field($inner, 'error_message', 'errorMessage', 'message', 'desc');
+
+        $has_positive_marker = $confirmation !== '' || $ca_no !== '' || $fsr !== '';
+        $has_error_marker    = $error_code !== ''
+            || stripos($body, '<error') !== false
+            || stripos($body, '<err_') !== false
+            || stripos($body, 'no available') !== false
+            || stripos($body, 'already scheduled') !== false;
+
+        $success = $has_positive_marker && !$has_error_marker;
 
         return new BookingResult([
             'success' => $success,
-            'confirmation_number' => is_array($response) ? ($response['confirmation'] ?? '') : '',
+            'confirmation_number' => $confirmation !== '' ? $confirmation : $ca_no,
             'appointment_date' => $data['schedule_date'] ?? '',
             'appointment_time' => $data['time'] ?? '',
-            'raw_response' => $response,
+            'error_code' => $success ? '' : ($error_code !== '' ? $error_code : 'no_confirmation_marker'),
+            'error_message' => $success
+                ? ''
+                : ($error_message !== ''
+                    ? $error_message
+                    : 'Booking response did not contain a confirmation, caNo, or fsr marker.'),
+            'raw_response' => $parsed !== [] ? $parsed : ['body' => $body],
         ]);
     }
 

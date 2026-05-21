@@ -22,7 +22,10 @@ define('ISF_INTELLISOURCE_PATH', __DIR__);
  * Load connector classes
  */
 function load_connector(): void {
-    require_once ISF_INTELLISOURCE_PATH . '/class-intellisource-xml-parser.php';
+    // 3.2.5: the IntelliSource-specific xml parser file does not exist in this
+    // build. The connector uses \FFFL\Api\XmlParser (loaded by class-plugin.php)
+    // instead. Keeping this comment as a tombstone in case a future build
+    // reintroduces a connector-specific parser.
     require_once ISF_INTELLISOURCE_PATH . '/class-intellisource-field-mapper.php';
     require_once ISF_INTELLISOURCE_PATH . '/class-intellisource-connector.php';
 }
